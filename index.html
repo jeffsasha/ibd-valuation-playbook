@@ -9,548 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Libre+Franklin:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      color-scheme: light dark;
-      --bg: #f3f5f2;
-      --surface: #ffffff;
-      --surface-2: #e8ece7;
-      --surface-3: #dfe6df;
-      --ink: #112018;
-      --muted: #4f6057;
-      --line: #cbd4cd;
-      --accent: #0b6849;
-      --accent-2: #07523a;
-      --accent-soft: #dcefe6;
-      --gold: #9a6a13;
-      --gold-soft: #f3e7c9;
-      --danger: #a13b2c;
-      --shadow: 0 18px 50px rgba(18, 37, 26, .10);
-      --radius-lg: 28px;
-      --radius-md: 16px;
-      --radius-sm: 8px;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f1512;
-        --surface: #17201b;
-        --surface-2: #202b25;
-        --surface-3: #29372f;
-        --ink: #edf4ef;
-        --muted: #a8b7ad;
-        --line: #34443a;
-        --accent: #5dd2a2;
-        --accent-2: #82e0b8;
-        --accent-soft: #173c2d;
-        --gold: #e5b75d;
-        --gold-soft: #3c321c;
-        --danger: #f18979;
-        --shadow: 0 18px 60px rgba(0, 0, 0, .35);
-      }
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font-family: "Libre Franklin", sans-serif;
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-    }
-    button, input { font: inherit; }
-    button { color: inherit; }
-    a { color: inherit; }
-    svg { display: block; }
-    .mono { font-family: "DM Mono", monospace; }
-    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-
-    .topnav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: color-mix(in srgb, var(--bg) 90%, transparent);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-    }
-    .topnav .shell { display: flex; align-items: center; gap: 10px; min-height: 58px; }
-    .nav-links { display: flex; align-items: center; gap: 4px; flex: 1; }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-      padding: 8px 11px;
-      border-radius: 999px;
-    }
-    .nav-links a:hover, .nav-links a:focus-visible { background: var(--surface-2); color: var(--ink); outline: none; }
-    .progress-wrap { width: 96px; height: 3px; background: var(--surface-3); border-radius: 10px; overflow: hidden; }
-    .progress { height: 100%; width: 0; background: var(--accent); }
-
-    .hero { padding: 88px 0 66px; overflow: hidden; }
-    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center; }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 18px;
-    }
-    .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { font-size: clamp(42px, 6.3vw, 79px); line-height: .98; letter-spacing: -.055em; margin-bottom: 24px; max-width: 760px; }
-    .hero-copy > p { font-size: clamp(17px, 2vw, 21px); line-height: 1.55; color: var(--muted); max-width: 650px; margin-bottom: 30px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      padding: 12px 17px;
-      font-size: 14px;
-      font-weight: 800;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background .18s ease, border-color .18s ease, color .18s ease;
-    }
-    .button.primary { background: var(--accent); color: #fff; }
-    @media (prefers-color-scheme: dark) { .button.primary { color: #07150f; } }
-    .button.primary:hover { background: var(--accent-2); }
-    .button.secondary { border-color: var(--line); background: var(--surface); }
-    .button.secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-    .deal-sheet {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      border-radius: 4px;
-      padding: 32px;
-      transform: rotate(1.4deg);
-    }
-    .deal-sheet::before {
-      content: "";
-      position: absolute;
-      inset: 12px -12px -12px 12px;
-      border: 1px solid var(--line);
-      background: var(--surface-2);
-      z-index: -1;
-    }
-    .sheet-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; padding-bottom: 22px; border-bottom: 2px solid var(--ink); }
-    .sheet-title { font-weight: 800; font-size: 20px; line-height: 1.2; }
-    .sheet-tag { color: var(--accent); font: 500 11px "DM Mono", monospace; }
-    .sheet-flow { display: grid; gap: 0; padding-top: 16px; }
-    .flow-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--line); }
-    .flow-no { color: var(--accent); font: 500 12px "DM Mono", monospace; }
-    .flow-main { font-size: 14px; font-weight: 700; }
-    .flow-sub { color: var(--muted); font-size: 11px; text-align: right; }
-    .sheet-total { display: flex; justify-content: space-between; align-items: end; gap: 16px; padding-top: 20px; }
-    .sheet-total span { color: var(--muted); font-size: 11px; }
-    .sheet-total strong { color: var(--accent); font: 500 28px "DM Mono", monospace; }
-
-    section { padding: 76px 0; scroll-margin-top: 64px; }
-    .section-head { display: grid; grid-template-columns: .7fr 1.3fr; gap: 44px; margin-bottom: 42px; align-items: end; }
-    .section-num { color: var(--accent); font: 500 13px "DM Mono", monospace; margin-bottom: 12px; }
-    h2 { font-size: clamp(31px, 4.4vw, 52px); line-height: 1.05; letter-spacing: -.045em; margin-bottom: 0; }
-    .section-head p { color: var(--muted); max-width: 660px; margin-bottom: 4px; font-size: 17px; }
-
-    .mandate-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .mandate {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      padding: 26px;
-      display: grid;
-      grid-template-columns: 54px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-    .mandate:nth-child(1) { border-radius: var(--radius-lg) 6px 6px 6px; }
-    .mandate:nth-child(2) { border-radius: 6px var(--radius-lg) 6px 6px; }
-    .mandate:nth-child(3) { border-radius: 6px 6px 6px var(--radius-lg); }
-    .mandate:nth-child(4) { border-radius: 6px 6px var(--radius-lg) 6px; }
-    .icon-box { width: 54px; height: 54px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); border-radius: 12px; }
-    .icon-box svg { width: 26px; height: 26px; }
-    .mandate h3 { font-size: 18px; margin-bottom: 6px; letter-spacing: -.02em; }
-    .mandate p { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
-    .deliverable { font: 500 11px "DM Mono", monospace; color: var(--accent); }
-
-    .timeline { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; }
-    .timeline::before { content: ""; position: absolute; left: 7%; right: 7%; top: 25px; height: 2px; background: var(--line); }
-    .phase { position: relative; padding-right: 18px; }
-    .phase-dot { width: 14px; height: 14px; border: 3px solid var(--bg); background: var(--accent); border-radius: 50%; margin: 19px 0 24px; box-shadow: 0 0 0 1px var(--accent); }
-    .phase-time { font: 500 10px "DM Mono", monospace; color: var(--accent); min-height: 18px; }
-    .phase h3 { font-size: 15px; margin-bottom: 7px; }
-    .phase p { color: var(--muted); font-size: 12px; line-height: 1.5; }
-
-    .models-section { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .model-layout { display: grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start; }
-    .model-tabs { display: grid; gap: 7px; position: sticky; top: 82px; }
-    .model-tab {
-      width: 100%;
-      border: 1px solid transparent;
-      background: transparent;
-      text-align: left;
-      padding: 16px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      display: grid;
-      grid-template-columns: 30px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      color: var(--muted);
-    }
-    .model-tab:hover { background: color-mix(in srgb, var(--surface) 55%, transparent); }
-    .model-tab.active { background: var(--surface); border-color: var(--line); color: var(--ink); box-shadow: 0 7px 22px rgba(0,0,0,.05); }
-    .tab-index { font: 500 11px "DM Mono", monospace; color: var(--accent); }
-    .tab-name { font-weight: 800; font-size: 14px; }
-    .tab-arrow { opacity: 0; transform: translateX(-5px); transition: .18s ease; }
-    .model-tab.active .tab-arrow { opacity: 1; transform: translateX(0); }
-    .model-panel { display: none; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 34px; min-height: 500px; }
-    .model-panel.active { display: block; }
-    .panel-top { display: flex; justify-content: space-between; gap: 22px; align-items: flex-start; margin-bottom: 30px; }
-    .panel-top h3 { font-size: 29px; letter-spacing: -.035em; margin-bottom: 8px; }
-    .panel-top p { color: var(--muted); max-width: 600px; margin-bottom: 0; }
-    .tag { flex: none; padding: 7px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font: 500 10px "DM Mono", monospace; }
-    .formula { background: var(--surface-2); border-radius: 10px; padding: 18px; font: 500 13px/1.7 "DM Mono", monospace; margin-bottom: 24px; overflow-wrap: anywhere; }
-    .model-notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .model-note { background: var(--surface); padding: 18px; }
-    .model-note span { display: block; color: var(--muted); font: 500 10px "DM Mono", monospace; margin-bottom: 7px; }
-    .model-note strong { font-size: 13px; line-height: 1.4; display: block; }
-    .mini-table { margin-top: 24px; border-top: 2px solid var(--ink); }
-    .mini-row { display: grid; grid-template-columns: 1.5fr repeat(3, .7fr); gap: 8px; padding: 10px 8px; border-bottom: 1px solid var(--line); align-items: center; font-size: 12px; }
-    .mini-row.header { color: var(--muted); font: 500 10px "DM Mono", monospace; }
-    .mini-row > :not(:first-child) { text-align: right; font-family: "DM Mono", monospace; }
-    .mini-row strong { font-size: 12px; }
-    .football-field { margin: 32px 0 12px; display: grid; gap: 14px; }
-    .field-row { display: grid; grid-template-columns: 150px 1fr; align-items: center; gap: 15px; }
-    .field-label { font-size: 12px; font-weight: 700; }
-    .field-track { height: 32px; background: var(--surface-2); position: relative; border-radius: 4px; }
-    .field-range { height: 100%; margin-left: var(--start); width: var(--width); background: var(--accent); opacity: .88; border-radius: 3px; display: flex; align-items: center; justify-content: space-between; padding: 0 9px; color: #fff; font: 500 10px "DM Mono", monospace; }
-    @media (prefers-color-scheme: dark) { .field-range { color: #06130d; } }
-
-    .workbench { padding-top: 92px; }
-    .dcf-grid { display: grid; grid-template-columns: 330px 1fr; gap: 18px; align-items: start; }
-    .assumptions, .output-card { background: var(--surface); border: 1px solid var(--line); }
-    .assumptions { padding: 24px; border-radius: 18px; }
-    .assumptions h3, .output-card h3 { font-size: 18px; margin-bottom: 5px; }
-    .subtle { color: var(--muted); font-size: 12px; }
-    .input-list { display: grid; gap: 17px; margin-top: 24px; }
-    .input-group label { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; font-weight: 700; margin-bottom: 7px; }
-    .input-wrap { display: flex; align-items: center; border: 1px solid var(--line); background: var(--bg); border-radius: 8px; overflow: hidden; }
-    .input-wrap span { font: 500 11px "DM Mono", monospace; color: var(--muted); padding-left: 10px; }
-    .input-wrap input { width: 100%; border: 0; background: transparent; color: var(--ink); padding: 9px 10px; outline: none; font: 500 12px "DM Mono", monospace; text-align: right; }
-    .input-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .output-stack { display: grid; gap: 18px; }
-    .output-card { padding: 25px; border-radius: 18px; }
-    .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
-    .kpi { background: var(--surface-2); padding: 17px; border-radius: 10px; }
-    .kpi span { display: block; color: var(--muted); font: 500 10px "DM Mono", monospace; margin-bottom: 7px; }
-    .kpi strong { display: block; font: 500 clamp(19px, 3vw, 27px) "DM Mono", monospace; letter-spacing: -.04em; }
-    .kpi.primary { background: var(--accent); color: #fff; }
-    .kpi.primary span { color: rgba(255,255,255,.72); }
-    @media (prefers-color-scheme: dark) { .kpi.primary { color: #06130d; } .kpi.primary span { color: rgba(6,19,13,.65); } }
-
-    .projection { margin-top: 25px; border-top: 2px solid var(--ink); }
-    .projection-row { display: grid; grid-template-columns: 1.2fr repeat(5, 1fr); gap: 6px; padding: 10px 5px; border-bottom: 1px solid var(--line); font: 500 11px "DM Mono", monospace; }
-    .projection-row > :not(:first-child) { text-align: right; }
-    .projection-row.head { color: var(--muted); }
-    .projection-row.fcf { color: var(--accent); font-weight: 500; }
-    .sensitivity { margin-top: 20px; }
-    .sensitivity-title { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-    .sensitivity-title strong { font-size: 13px; }
-    .sensitivity-title span { color: var(--muted); font-size: 10px; }
-    .matrix { display: grid; grid-template-columns: .9fr repeat(3, 1fr); border: 1px solid var(--line); }
-    .matrix > div { min-width: 0; padding: 10px 5px; text-align: center; font: 500 10px "DM Mono", monospace; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .matrix > div:nth-child(4n) { border-right: 0; }
-    .matrix > div:nth-last-child(-n+4) { border-bottom: 0; }
-    .matrix .corner, .matrix .axis { background: var(--surface-2); color: var(--muted); }
-    .matrix .center { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
-    .download-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 20px; }
-    .download-row p { color: var(--muted); font-size: 11px; margin: 0; }
-
-    .bridge { margin-top: 22px; }
-    .bridge-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
-    .bridge-row strong { font-family: "DM Mono", monospace; }
-    .bridge-row.total { border-top: 2px solid var(--ink); border-bottom: 0; font-weight: 800; font-size: 15px; }
-
-    .interview-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; }
-    .question-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 28px; }
-    .question-card h3 { font-size: 22px; margin-bottom: 18px; }
-    .qa { border-top: 1px solid var(--line); }
-    .qa button { width: 100%; border: 0; background: transparent; padding: 17px 0; display: flex; justify-content: space-between; gap: 18px; text-align: left; cursor: pointer; font-weight: 700; font-size: 14px; }
-    .qa button svg { flex: none; width: 18px; height: 18px; transition: transform .18s ease; }
-    .qa.open button svg { transform: rotate(45deg); }
-    .answer { display: none; color: var(--muted); font-size: 13px; padding: 0 28px 18px 0; }
-    .qa.open .answer { display: block; }
-    .analyst-stack { display: grid; gap: 12px; }
-    .analyst-card { padding: 19px; background: var(--surface-2); border-radius: 12px; }
-    .analyst-card .time { color: var(--accent); font: 500 10px "DM Mono", monospace; }
-    .analyst-card h4 { margin: 4px 0 5px; font-size: 14px; }
-    .analyst-card p { color: var(--muted); font-size: 12px; margin: 0; }
-
-    .glossary { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); }
-    .term { padding: 21px 18px; border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
-    .term:nth-child(4n) { border-right: 0; }
-    .term strong { display: block; color: var(--accent); font: 500 12px "DM Mono", monospace; margin-bottom: 7px; }
-    .term p { color: var(--muted); font-size: 12px; margin: 0; }
-
-    .closing { padding: 80px 0 110px; }
-    .closing-box { background: var(--ink); color: var(--bg); padding: 44px; border-radius: 26px 6px 26px 6px; display: grid; grid-template-columns: 1.25fr .75fr; gap: 44px; align-items: end; }
-    .closing-box h2 { max-width: 660px; }
-    .closing-box p { color: color-mix(in srgb, var(--bg) 72%, transparent); margin: 0 0 16px; }
-    .closing-box .button { background: var(--accent); color: #fff; width: fit-content; }
-    @media (prefers-color-scheme: dark) { .closing-box { background: #e8f1eb; color: #101813; } .closing-box p { color: #4b5d52; } .closing-box .button { color: #06130d; } }
-
-    .legal { text-align: center; color: var(--muted); font-size: 10px; padding: 0 20px 30px; }
-
-    @media (max-width: 900px) {
-      .hero-grid, .section-head, .dcf-grid, .interview-grid, .closing-box { grid-template-columns: 1fr; }
-      .hero { padding-top: 58px; }
-      .hero-grid { gap: 48px; }
-      .deal-sheet { max-width: 600px; margin: 0 auto; }
-      .section-head { gap: 15px; }
-      .timeline { grid-template-columns: repeat(3, 1fr); row-gap: 28px; }
-      .timeline::before { display: none; }
-      .phase-dot { margin-bottom: 14px; }
-      .model-layout { grid-template-columns: 1fr; }
-      .model-tabs { grid-template-columns: repeat(5, minmax(130px, 1fr)); position: static; overflow-x: auto; padding-bottom: 8px; }
-      .model-tab { grid-template-columns: 24px 1fr; }
-      .tab-arrow { display: none; }
-      .glossary { grid-template-columns: repeat(2, 1fr); }
-      .term:nth-child(4n) { border-right: 1px solid var(--line); }
-      .term:nth-child(2n) { border-right: 0; }
-    }
-
-    @media (max-width: 640px) {
-      .shell { width: min(100% - 24px, 1180px); }
-      .topnav .shell { min-height: 52px; }
-      .nav-links a { font-size: 11px; padding: 7px 8px; }
-      .nav-links a:nth-child(2) { display: none; }
-      .progress-wrap { width: 54px; }
-      .hero { padding: 45px 0 48px; }
-      h1 { font-size: 43px; }
-      .hero-copy > p { font-size: 16px; }
-      .button { width: 100%; }
-      .deal-sheet { padding: 23px; transform: none; margin-right: 8px; }
-      .deal-sheet::before { inset: 8px -8px -8px 8px; }
-      .sheet-total strong { font-size: 22px; }
-      section { padding: 56px 0; }
-      .mandate-grid { grid-template-columns: 1fr; }
-      .mandate, .mandate:nth-child(n) { border-radius: 16px; padding: 20px; }
-      .timeline { grid-template-columns: repeat(2, 1fr); }
-      .model-tabs { grid-template-columns: repeat(2, 1fr); overflow: visible; }
-      .model-tab { min-width: 0; padding: 12px; }
-      .model-panel { padding: 22px 16px; border-radius: 16px; min-height: 0; }
-      .panel-top { display: grid; }
-      .panel-top h3 { font-size: 24px; }
-      .tag { width: fit-content; }
-      .model-notes { grid-template-columns: 1fr; }
-      .mini-row { grid-template-columns: 1.3fr repeat(3, .75fr); font-size: 10px; gap: 4px; }
-      .field-row { grid-template-columns: 88px 1fr; gap: 8px; }
-      .field-label { font-size: 10px; }
-      .field-range { font-size: 8px; padding: 0 5px; }
-      .workbench { padding-top: 64px; }
-      .assumptions, .output-card { padding: 19px 15px; }
-      .kpis { grid-template-columns: 1fr; }
-      .projection-row { grid-template-columns: 1.2fr repeat(5, 1fr); gap: 2px; font-size: 8px; }
-      .projection-row > div { overflow: hidden; }
-      .matrix > div { font-size: 8px; padding: 9px 2px; }
-      .download-row { display: grid; }
-      .glossary { grid-template-columns: 1fr; }
-      .term, .term:nth-child(n) { border-right: 0; }
-      .closing-box { padding: 29px 22px; border-radius: 20px 4px 20px 4px; gap: 24px; }
-    }
-
-    /* Product UI refresh: crisp, high-signal surfaces with an explicit theme switch. */
-    :root {
-      --bg: #f6f8fb;
-      --surface: #ffffff;
-      --surface-2: #eef2f7;
-      --surface-3: #dfe6ef;
-      --ink: #101828;
-      --muted: #536174;
-      --line: #d4dce7;
-      --accent: #1467e8;
-      --accent-2: #0b53c1;
-      --accent-soft: #e7f0ff;
-      --gold: #9b6412;
-      --gold-soft: #fff0cf;
-      --danger: #c2382b;
-      --shadow: 0 24px 70px rgba(27, 47, 78, .12);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0b1018;
-        --surface: #111925;
-        --surface-2: #172231;
-        --surface-3: #223044;
-        --ink: #f2f6fb;
-        --muted: #a7b4c5;
-        --line: #2a3a50;
-        --accent: #63a0ff;
-        --accent-2: #8ab7ff;
-        --accent-soft: #142d50;
-        --gold: #efbd64;
-        --gold-soft: #3b2d14;
-        --danger: #ff9389;
-        --shadow: 0 24px 70px rgba(0, 0, 0, .4);
-      }
-    }
-    html[data-theme="light"] {
-      color-scheme: light;
-      --bg: #f6f8fb;
-      --surface: #ffffff;
-      --surface-2: #eef2f7;
-      --surface-3: #dfe6ef;
-      --ink: #101828;
-      --muted: #536174;
-      --line: #d4dce7;
-      --accent: #1467e8;
-      --accent-2: #0b53c1;
-      --accent-soft: #e7f0ff;
-      --gold: #9b6412;
-      --gold-soft: #fff0cf;
-      --danger: #c2382b;
-      --shadow: 0 24px 70px rgba(27, 47, 78, .12);
-    }
-    html[data-theme="dark"] {
-      color-scheme: dark;
-      --bg: #0b1018;
-      --surface: #111925;
-      --surface-2: #172231;
-      --surface-3: #223044;
-      --ink: #f2f6fb;
-      --muted: #a7b4c5;
-      --line: #2a3a50;
-      --accent: #63a0ff;
-      --accent-2: #8ab7ff;
-      --accent-soft: #142d50;
-      --gold: #efbd64;
-      --gold-soft: #3b2d14;
-      --danger: #ff9389;
-      --shadow: 0 24px 70px rgba(0, 0, 0, .4);
-    }
-    body {
-      background-image:
-        linear-gradient(color-mix(in srgb, var(--line) 22%, transparent) 1px, transparent 1px),
-        linear-gradient(90deg, color-mix(in srgb, var(--line) 22%, transparent) 1px, transparent 1px);
-      background-size: 48px 48px;
-      background-attachment: fixed;
-    }
-    main { background: color-mix(in srgb, var(--bg) 94%, transparent); }
-    .topnav { background: color-mix(in srgb, var(--surface) 88%, transparent); }
-    .topnav .shell { min-height: 64px; }
-    .theme-toggle {
-      flex: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      height: 38px;
-      padding: 0 12px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: var(--surface);
-      color: var(--ink);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 800;
-      box-shadow: 0 3px 10px rgba(25, 44, 72, .05);
-    }
-    .theme-toggle:hover, .theme-toggle:focus-visible { border-color: var(--accent); outline: none; }
-    .theme-toggle svg { width: 16px; height: 16px; color: var(--accent); }
-    .theme-toggle .moon-icon { display: none; }
-    html[data-theme="dark"] .theme-toggle .sun-icon { display: none; }
-    html[data-theme="dark"] .theme-toggle .moon-icon { display: block; }
-    .hero { padding-top: 78px; }
-    .eyebrow { letter-spacing: .06em; }
-    h1 { font-size: clamp(42px, 5.8vw, 72px); }
-    .deal-sheet {
-      transform: none;
-      border-radius: 22px;
-      padding: 26px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .deal-sheet::before { display: none; }
-    .deal-sheet::after {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), #37b899);
-    }
-    .sheet-top { border-bottom-color: var(--line); }
-    .sheet-title::before {
-      content: "●  ●  ●";
-      display: block;
-      color: var(--line);
-      font: 500 8px "DM Mono", monospace;
-      letter-spacing: 4px;
-      margin-bottom: 14px;
-    }
-    .sheet-tag, .tag { border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent); }
-    .mandate { border-radius: 16px !important; transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
-    .mandate:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); box-shadow: 0 14px 32px rgba(23, 59, 109, .08); transform: translateY(-2px); }
-    .models-section { background: color-mix(in srgb, var(--surface-2) 88%, transparent); }
-    .model-tab.active { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); box-shadow: 0 8px 28px rgba(20, 103, 232, .10); }
-    .model-panel, .assumptions, .output-card, .question-card { box-shadow: 0 12px 36px rgba(23, 48, 86, .06); }
-    .model-panel { border-radius: 18px; }
-    .kpi.primary { background: var(--accent); }
-    html[data-theme="dark"] .button.primary,
-    html[data-theme="dark"] .field-range,
-    html[data-theme="dark"] .kpi.primary,
-    html[data-theme="dark"] .closing-box .button { color: #07101d; }
-    html[data-theme="light"] .button.primary,
-    html[data-theme="light"] .field-range,
-    html[data-theme="light"] .kpi.primary { color: #fff; }
-    .forecast-chart { margin-top: 24px; padding: 18px; background: var(--surface-2); border-radius: 12px; }
-    .chart-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-    .chart-copy strong { display: block; font-size: 13px; }
-    .chart-copy span { color: var(--muted); font-size: 10px; }
-    .chart-modes { display: flex; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
-    .chart-mode { border: 0; border-radius: 6px; background: transparent; color: var(--muted); padding: 6px 9px; cursor: pointer; font: 500 10px "DM Mono", monospace; }
-    .chart-mode.active { background: var(--accent-soft); color: var(--accent); }
-    .chart-bars { height: 176px; display: grid; grid-template-columns: repeat(5, 1fr); align-items: end; gap: 12px; border-bottom: 1px solid var(--line); }
-    .chart-bar-wrap { height: 100%; min-width: 0; display: flex; flex-direction: column; justify-content: end; align-items: center; gap: 7px; }
-    .chart-value { color: var(--muted); font: 500 9px "DM Mono", monospace; white-space: nowrap; }
-    .chart-bar {
-      width: min(42px, 72%);
-      min-height: 8px;
-      border: 0;
-      border-radius: 6px 6px 1px 1px;
-      background: color-mix(in srgb, var(--accent) 38%, var(--surface));
-      cursor: pointer;
-      transition: height .28s ease, background .18s ease;
-    }
-    .chart-bar:hover, .chart-bar:focus-visible, .chart-bar.active { background: var(--accent); outline: none; }
-    .chart-year { color: var(--muted); font: 500 9px "DM Mono", monospace; padding-top: 1px; transform: translateY(21px); }
-    .chart-readout { min-height: 18px; margin-top: 27px; color: var(--accent); font: 500 11px "DM Mono", monospace; text-align: right; }
-    .closing-box { border-radius: 20px; background: #101828; }
-    html[data-theme="dark"] .closing-box { background: #edf4ff; color: #101828; }
-    html[data-theme="dark"] .closing-box p { color: #526174; }
-    @media (max-width: 640px) {
-      .theme-toggle { width: 38px; padding: 0; justify-content: center; }
-      .theme-label { display: none; }
-      .progress-wrap { display: none; }
-      .topnav .shell { gap: 5px; }
-      .nav-links a { padding-inline: 6px; }
-      .hero { padding-top: 52px; }
-      .chart-head { align-items: flex-start; flex-direction: column; }
-      .chart-bars { gap: 6px; }
-      .forecast-chart { padding: 15px 10px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; }
-    }
-  </style>
+  
+  <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
   <nav class="topnav" aria-label="Page sections">
@@ -561,6 +21,7 @@
         <a href="#models">Models</a>
         <a href="#dcf-lab">DCF lab</a>
         <a href="#interview">Interview</a>
+        <a href="#resources">Resources</a>
       </div>
       <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progress"></div></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
@@ -778,9 +239,56 @@
       </div>
     </section>
 
+    <section id="resources" class="resources-section" aria-labelledby="resources-title">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="section-num">06 / LEARNING HUB</div><h2 id="resources-title">Go deeper with trusted references</h2></div>
+          <p>Use these external guides to learn the concepts, rehearse interview answers, and inspect working finance code. Filter the library by what you want to do next.</p>
+        </div>
+        <div class="resource-console">
+          <div class="resource-toolbar">
+            <div class="resource-filters" role="group" aria-label="Filter learning resources">
+              <button class="resource-filter active" type="button" data-resource-filter="all" aria-pressed="true">All resources</button>
+              <button class="resource-filter" type="button" data-resource-filter="learn" aria-pressed="false">Learn concepts</button>
+              <button class="resource-filter" type="button" data-resource-filter="interview" aria-pressed="false">Interview prep</button>
+              <button class="resource-filter" type="button" data-resource-filter="project" aria-pressed="false">GitHub projects</button>
+            </div>
+            <div class="resource-count" id="resourceCount" aria-live="polite">8 RESOURCES SHOWN</div>
+          </div>
+          <div class="resource-list" id="resourceList">
+            <a class="resource-card" data-resource-category="learn" href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">NYU</span><span><span class="resource-meta"><span class="resource-type">VALUATION</span><span class="resource-domain">pages.stern.nyu.edu</span></span><h3>Aswath Damodaran’s valuation library</h3><p>Classes, datasets, lecture notes, and spreadsheets for corporate finance and valuation.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="learn" href="https://www.streetofwalls.com/finance-training-courses/investment-banking-technical-training/valuation-techniques-overview/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">SW</span><span><span class="resource-meta"><span class="resource-type">TECHNICAL</span><span class="resource-domain">streetofwalls.com</span></span><h3>Valuation techniques overview</h3><p>A practical comparison of DCF, public-company comparables, and precedent transactions.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="interview" href="https://www.streetofwalls.com/finance-training-courses/investment-banking-overview-and-behavioral-training/investment-banking-job-interview/" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">Q&amp;A</span><span><span class="resource-meta"><span class="resource-type">INTERVIEW</span><span class="resource-domain">streetofwalls.com</span></span><h3>Investment banking interview guide</h3><p>Common technical and behavioral prompts, with guidance for practicing answers aloud.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="learn interview" href="https://corporatefinanceinstitute.com/resources/?page_number=152&amp;types=86405" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">CFI</span><span><span class="resource-meta"><span class="resource-type">REFERENCE</span><span class="resource-domain">corporatefinanceinstitute.com</span></span><h3>Corporate finance resource library</h3><p>Browse explainers and templates spanning accounting, valuation, modeling, and capital markets.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="project learn" href="https://github.com/hassaammgl/quant-roadmap/blob/HEAD/finance/04-corporate-finance.md" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">GH</span><span><span class="resource-meta"><span class="resource-type">GITHUB · ROADMAP</span><span class="resource-domain">github.com</span></span><h3>Corporate finance study roadmap</h3><p>A structured path through NPV, IRR, WACC, capital structure, and self-testing.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="project" href="https://github.com/scfengv/Stock-Valuation" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">PY</span><span><span class="resource-meta"><span class="resource-type">GITHUB · DCF</span><span class="resource-domain">github.com</span></span><h3>Five-year stock valuation model</h3><p>Inspect a Python DCF project that forecasts cash flow, WACC, terminal value, and implied price.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="project" href="https://github.com/openbb-finance/openbb" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">OBB</span><span><span class="resource-meta"><span class="resource-type">GITHUB · DATA</span><span class="resource-domain">github.com</span></span><h3>OpenBB financial data platform</h3><p>Explore an open-source data layer for building research workflows and finance applications.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="resource-card" data-resource-category="project" href="https://github.com/numpy/numpy-financial" target="_blank" rel="noopener noreferrer">
+              <span class="resource-mark">NPF</span><span><span class="resource-meta"><span class="resource-type">GITHUB · MATH</span><span class="resource-domain">github.com</span></span><h3>NumPy Financial</h3><p>Review tested implementations of core time-value-of-money functions such as NPV and IRR.</p></span><span class="resource-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <div class="resource-note"><span><strong>Suggested sequence:</strong> foundations → valuation → build a model → explain it without notes.</span><span>External resources open in a new tab.</span></div>
+        </div>
+      </div>
+    </section>
+
     <section aria-labelledby="glossary-title">
       <div class="shell">
-        <div class="section-head"><div><div class="section-num">06 / QUICK REFERENCE</div><h2 id="glossary-title">The language of valuation</h2></div><p>These terms recur across nearly every interview, model, and deal discussion.</p></div>
+        <div class="section-head"><div><div class="section-num">07 / QUICK REFERENCE</div><h2 id="glossary-title">The language of valuation</h2></div><p>These terms recur across nearly every interview, model, and deal discussion.</p></div>
         <div class="glossary">
           <div class="term"><strong>ENTERPRISE VALUE</strong><p>Value of core operations to all capital providers.</p></div>
           <div class="term"><strong>EQUITY VALUE</strong><p>Value attributable to common shareholders.</p></div>
@@ -803,183 +311,7 @@
   </main>
   <div class="legal">Illustrative educational content only. Not investment advice. Example company names and figures are fictional.</div>
 
-  <script>
-    (function () {
-      var themeToggle = document.getElementById('themeToggle');
-      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var currentTheme = prefersDark ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      function syncThemeControl() {
-        var dark = currentTheme === 'dark';
-        themeToggle.setAttribute('aria-pressed', String(dark));
-        themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-        themeToggle.querySelector('.theme-label').textContent = dark ? 'Light mode' : 'Dark mode';
-      }
-      themeToggle.addEventListener('click', function () {
-        currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        syncThemeControl();
-      });
-      syncThemeControl();
-
-      var tabs = Array.prototype.slice.call(document.querySelectorAll('.model-tab'));
-      var panels = Array.prototype.slice.call(document.querySelectorAll('.model-panel'));
-      tabs.forEach(function (tab) {
-        tab.addEventListener('click', function () {
-          var key = tab.getAttribute('data-panel');
-          tabs.forEach(function (t) { var on = t === tab; t.classList.toggle('active', on); t.setAttribute('aria-selected', String(on)); });
-          panels.forEach(function (p) { var on = p.id === 'panel-' + key; p.classList.toggle('active', on); p.hidden = !on; });
-        });
-      });
-
-      document.querySelectorAll('.qa button').forEach(function (button) {
-        button.addEventListener('click', function () {
-          var item = button.parentElement;
-          var open = !item.classList.contains('open');
-          item.classList.toggle('open', open);
-          button.setAttribute('aria-expanded', String(open));
-        });
-      });
-
-      var inputIds = ['revenue','growth','margin','tax','da','capex','nwc','wacc','terminal','netdebt','shares'];
-      var inputs = {};
-      inputIds.forEach(function (id) { inputs[id] = document.getElementById(id); inputs[id].addEventListener('input', renderDCF); });
-
-      function val(id) { return Number(inputs[id].value) || 0; }
-      function money(x, decimals) {
-        if (!isFinite(x)) return '—';
-        var abs = Math.abs(x);
-        var sign = x < 0 ? '−' : '';
-        return sign + '$' + abs.toLocaleString('en-US', { minimumFractionDigits: decimals || 0, maximumFractionDigits: decimals || 0 });
-      }
-      function calculate(waccOverride, terminalOverride) {
-        var rev = val('revenue');
-        var growth = val('growth') / 100;
-        var margin = val('margin') / 100;
-        var tax = val('tax') / 100;
-        var daRate = val('da') / 100;
-        var capexRate = val('capex') / 100;
-        var nwcRate = val('nwc') / 100;
-        var wacc = typeof waccOverride === 'number' ? waccOverride : val('wacc') / 100;
-        var tg = typeof terminalOverride === 'number' ? terminalOverride : val('terminal') / 100;
-        var rows = [], pv = 0;
-        for (var year = 1; year <= 5; year++) {
-          rev = rev * (1 + growth);
-          var ebitda = rev * margin;
-          var da = rev * daRate;
-          var ebit = ebitda - da;
-          var nopat = ebit * (1 - tax);
-          var capex = rev * capexRate;
-          var dnwc = rev * nwcRate;
-          var fcf = nopat + da - capex - dnwc;
-          var pvFcf = fcf / Math.pow(1 + wacc, year);
-          pv += pvFcf;
-          rows.push({ year: year, revenue: rev, ebitda: ebitda, fcf: fcf, pv: pvFcf });
-        }
-        var terminalValue = wacc > tg ? rows[4].fcf * (1 + tg) / (wacc - tg) : NaN;
-        var pvTerminal = terminalValue / Math.pow(1 + wacc, 5);
-        var ev = pv + pvTerminal;
-        var equity = ev - val('netdebt');
-        var perShare = equity / Math.max(val('shares'), .0001);
-        return { rows: rows, pvFcf: pv, terminalValue: terminalValue, pvTerminal: pvTerminal, ev: ev, equity: equity, perShare: perShare, wacc: wacc, tg: tg };
-      }
-
-      var chartMetric = 'fcf';
-      var selectedChartYear = 4;
-      document.querySelectorAll('.chart-mode').forEach(function (button) {
-        button.addEventListener('click', function () {
-          chartMetric = button.getAttribute('data-metric');
-          document.querySelectorAll('.chart-mode').forEach(function (item) {
-            var on = item === button;
-            item.classList.toggle('active', on);
-            item.setAttribute('aria-pressed', String(on));
-          });
-          renderDCF();
-        });
-      });
-
-      function renderChart(rows) {
-        var max = Math.max.apply(null, rows.map(function (row) { return Math.max(0, row[chartMetric]); })) || 1;
-        var label = chartMetric === 'fcf' ? 'Unlevered FCF' : 'Revenue';
-        var chart = document.getElementById('chartBars');
-        chart.innerHTML = rows.map(function (row, index) {
-          var amount = row[chartMetric];
-          var height = Math.max(8, Math.round((Math.max(0, amount) / max) * 112));
-          var active = index === selectedChartYear;
-          return '<div class="chart-bar-wrap"><span class="chart-value">' + money(amount, 0) + 'm</span><button class="chart-bar' + (active ? ' active' : '') + '" type="button" data-chart-year="' + index + '" style="height:' + height + 'px" aria-label="Year ' + row.year + ', ' + label + ' ' + money(amount, 0) + ' million" aria-pressed="' + String(active) + '"></button><span class="chart-year">Y' + row.year + '</span></div>';
-        }).join('');
-        chart.querySelectorAll('.chart-bar').forEach(function (bar) {
-          bar.addEventListener('click', function () {
-            selectedChartYear = Number(bar.getAttribute('data-chart-year'));
-            renderChart(rows);
-          });
-        });
-        var selected = rows[selectedChartYear] || rows[rows.length - 1];
-        document.getElementById('chartReadout').textContent = 'YEAR ' + selected.year + ' · ' + label.toUpperCase() + ' ' + money(selected[chartMetric], 1) + 'm';
-      }
-
-      function renderDCF() {
-        var r = calculate();
-        var valid = isFinite(r.ev) && r.ev > 0;
-        document.getElementById('evOut').textContent = valid ? money(r.ev, 0) + 'm' : '—';
-        document.getElementById('equityOut').textContent = valid ? money(r.equity, 0) + 'm' : '—';
-        document.getElementById('shareOut').textContent = valid ? money(r.perShare, 2) : '—';
-        var status = document.getElementById('model-status');
-        status.textContent = valid ? 'Base case · Gordon Growth method' : 'WACC must be greater than terminal growth';
-        status.style.color = valid ? '' : 'var(--danger)';
-        renderChart(r.rows);
-
-        var html = '<div class="projection-row head"><div>$m</div>';
-        r.rows.forEach(function (row) { html += '<div>Y' + row.year + '</div>'; });
-        html += '</div>';
-        ['revenue','ebitda','fcf'].forEach(function (key) {
-          html += '<div class="projection-row ' + (key === 'fcf' ? 'fcf' : '') + '"><div>' + (key === 'revenue' ? 'Revenue' : key === 'ebitda' ? 'EBITDA' : 'Unlev. FCF') + '</div>';
-          r.rows.forEach(function (row) { html += '<div>' + money(row[key], 0).replace('$','') + '</div>'; });
-          html += '</div>';
-        });
-        document.getElementById('projection').innerHTML = html;
-
-        var baseWacc = val('wacc') / 100;
-        var baseTg = val('terminal') / 100;
-        var waccs = [baseWacc - .01, baseWacc, baseWacc + .01];
-        var tgs = [baseTg + .005, baseTg, baseTg - .005];
-        var matrix = '<div class="corner">g \\ WACC</div>';
-        waccs.forEach(function (w) { matrix += '<div class="axis">' + (w * 100).toFixed(1) + '%</div>'; });
-        tgs.forEach(function (g, gi) {
-          matrix += '<div class="axis">' + (g * 100).toFixed(1) + '%</div>';
-          waccs.forEach(function (w, wi) {
-            var c = calculate(w, g);
-            var center = gi === 1 && wi === 1;
-            matrix += '<div class="' + (center ? 'center' : '') + '">' + (isFinite(c.perShare) && c.perShare > 0 ? money(c.perShare, 2) : '—') + '</div>';
-          });
-        });
-        document.getElementById('matrix').innerHTML = matrix;
-      }
-
-      document.getElementById('downloadCsv').addEventListener('click', function () {
-        var r = calculate();
-        var lines = [
-          ['DCF Model Snapshot','Value'],
-          ['Base revenue ($m)',val('revenue')],['Revenue growth (%)',val('growth')],['EBITDA margin (%)',val('margin')],['Cash tax rate (%)',val('tax')],['D&A (% revenue)',val('da')],['Capex (% revenue)',val('capex')],['Change in NWC (% revenue)',val('nwc')],['WACC (%)',val('wacc')],['Terminal growth (%)',val('terminal')],['Net debt ($m)',val('netdebt')],['Diluted shares (m)',val('shares')],[],['Year','Revenue','EBITDA','Unlevered FCF','PV of FCF']
-        ];
-        r.rows.forEach(function (row) { lines.push([row.year,row.revenue.toFixed(1),row.ebitda.toFixed(1),row.fcf.toFixed(1),row.pv.toFixed(1)]); });
-        lines.push([],['Enterprise value ($m)',isFinite(r.ev) ? r.ev.toFixed(1) : 'N/A'],['Equity value ($m)',isFinite(r.equity) ? r.equity.toFixed(1) : 'N/A'],['Value per share ($)',isFinite(r.perShare) ? r.perShare.toFixed(2) : 'N/A']);
-        var csv = lines.map(function (row) { return row.map(function (cell) { return '"' + String(cell === undefined ? '' : cell).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
-        var blob = new Blob([csv], {type:'text/csv;charset=utf-8'});
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url; a.download = 'illustrative-dcf-model.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-      });
-
-      function updateProgress() {
-        var max = document.documentElement.scrollHeight - window.innerHeight;
-        var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-        document.getElementById('progress').style.width = Math.min(100, Math.max(0, pct)) + '%';
-      }
-      window.addEventListener('scroll', updateProgress, { passive: true });
-      window.addEventListener('resize', updateProgress);
-      renderDCF(); updateProgress();
-    })();
-  </script>
+  
+  <script src="assets/script.js"></script>
 </body>
 </html>
