@@ -26,6 +26,36 @@
         });
       });
 
+      var deepTabs = Array.prototype.slice.call(document.querySelectorAll('.deep-tab'));
+      var deepPanels = Array.prototype.slice.call(document.querySelectorAll('.deep-panel'));
+      function activateDeepTab(tab, moveFocus) {
+        var key = tab.getAttribute('data-deep-panel');
+        deepTabs.forEach(function (item) {
+          var on = item === tab;
+          item.classList.toggle('active', on);
+          item.setAttribute('aria-selected', String(on));
+          item.setAttribute('tabindex', on ? '0' : '-1');
+        });
+        deepPanels.forEach(function (panel) {
+          var on = panel.id === 'deep-panel-' + key;
+          panel.classList.toggle('active', on);
+          panel.hidden = !on;
+        });
+        if (moveFocus) tab.focus();
+      }
+      deepTabs.forEach(function (tab, index) {
+        tab.addEventListener('click', function () { activateDeepTab(tab, false); });
+        tab.addEventListener('keydown', function (event) {
+          var next = null;
+          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = deepTabs[(index + 1) % deepTabs.length];
+          if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = deepTabs[(index - 1 + deepTabs.length) % deepTabs.length];
+          if (event.key === 'Home') next = deepTabs[0];
+          if (event.key === 'End') next = deepTabs[deepTabs.length - 1];
+          if (next) { event.preventDefault(); activateDeepTab(next, true); }
+        });
+      });
+      if (deepTabs.length) activateDeepTab(deepTabs[0], false);
+
       document.querySelectorAll('.qa button').forEach(function (button) {
         button.addEventListener('click', function () {
           var item = button.parentElement;
