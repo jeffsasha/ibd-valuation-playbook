@@ -22,10 +22,18 @@ An interactive introduction to what an Investment Banking Division (IBD) does, p
 
 ## Run it locally
 
-No build step — it's a single self-contained HTML file. Just open `index.html` in any modern browser, or serve it:
+No build step — just static files. Open `index.html` in any modern browser, or serve the folder:
 
 ```bash
 python3 -m http.server
+```
+
+Project layout:
+
+```
+index.html           page markup
+assets/styles.css    all styling, incl. light/dark themes
+assets/script.js     DCF lab, charts, filters and theme toggle
 ```
 
 ## License
